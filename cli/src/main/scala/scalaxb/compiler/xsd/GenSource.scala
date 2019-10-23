@@ -902,8 +902,8 @@ object {localName} {{
       case all: AllDecl =>
         if (isLongAll(all, namespace, family)) List(buildLongAllRef(all))
         else compositor.particles flatMap {
-          case elem: ElemDecl           => List(toOptional(elem))
-          case ref: ElemRef             => List(toOptional(buildElement(ref)))
+          case elem: ElemDecl           => List(elem)
+          case ref: ElemRef             => List(buildElement(ref))
           case _                        => sys.error("GenSource#flattenElements: by spec, <all> should contain only elems")
         }
 

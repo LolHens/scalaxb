@@ -131,8 +131,8 @@ trait Args extends Params {
   // called by makeCaseClassWithType. By spec, <all> contains only elements.
   def buildArgForAll(particle: Particle, longAll: Boolean): String = {
     val o = particle match {
-      case elem: ElemDecl => toOptional(elem)
-      case ref: ElemRef   => toOptional(buildElement(ref))
+      case elem: ElemDecl => elem
+      case ref: ElemRef   => buildElement(ref)
       case _ => sys.error("buildArgForAll unsupported type: " + particle)
     }
     val arg = buildArg(o, buildSelector(o), Some("node"), longAll)
