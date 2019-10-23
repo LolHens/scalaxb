@@ -286,12 +286,13 @@ trait ContextProcessor extends ScalaNames with PackageName {
     val enumValues = context.enumValueNames(packageName(decl.namespace, context))
     val name = context.typeNames(decl)
     filterEnumeration(decl) map { enum =>
-      enumValues(name -> enum) = makeProtectedTypeName(decl.namespace,
+      enumValues(name -> enum) = makeTypeName(
         enum.value match {
           case qname: QName => Option(scope.getPrefix(qname.getNamespaceURI)).getOrElse("") + qname.getLocalPart.capitalize
           case x if enum.value.toString.length > enumNameMaxLength => "longName"
           case _            => enum.value.toString
-        }, "Value", context)
+        }
+      )
     }
   }
 

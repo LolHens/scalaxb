@@ -593,7 +593,7 @@ class GenSource(val schema: SchemaDecl,
     val baseType: Option[String      ] = baseSym.map(buildTypeName(_))
 
     def makeEnum(enum: EnumerationDecl[_]) =
-      "case object " + buildTypeName(localName, enum, true) + " extends " + localName + 
+      "  case object " + buildTypeName(localName, enum, shortLocal = true, sameClass = true) + " extends " + localName +
       " { override def toString = " + quote(enum.value.toString) + " }"
     
     def makeCaseEntry(enum: EnumerationDecl[_]) = baseSym match {
@@ -607,7 +607,7 @@ class GenSource(val schema: SchemaDecl,
 
     
     val enumString = enums.map(makeEnum).mkString(newline)
-    val enumListString = enums.map(enum => buildTypeName(localName, enum, true)).mkString(", ")
+    val enumListString = enums.map(enum => buildTypeName(localName, enum, shortLocal = true, sameClass = true)).mkString(", ")
     val enumValuesString = s"lazy val values: Seq[$localName] = Seq($enumListString)"
 
     def valueCode: String = baseSym match {
@@ -632,9 +632,10 @@ object {localName} {{
     case x => throw new RuntimeException(s"fromString returned unexpected value $x for input $value")
   }}
   {enumValuesString}
-}}
 
-{ enumString }</source>
+{enumString}
+}}
+</source>
     }  // match
 
     def enumMatchGroup(enums: List[EnumerationDecl[_]], index: Int): String = {
